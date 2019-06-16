@@ -32,7 +32,7 @@ namespace DataConveyer_AggregateTokens
             GlobalCacheElements = new string[] { "TokenSummary" },  //a single element - a dictionary - Dict<string,Tuple<int,int>>
             InputDataKind = KindOfTextData.XML,
             IntakeReaders = () => Directory.GetFiles(_inLocation, "*.xml").Select(f => File.OpenText(f)), //note that we're neglecting to dispose the stream readers here (not a production code)
-            XmlJsonIntakeSettings = "RecordNode|Token,IncludeExplicitText|true",
+            XmlJsonIntakeSettings = "RecordNode|Token,IncludeExplicitText|true,IncludeAttributes|true",
             ExplicitTypeDefinitions = "__explicitText__|I",  //in our case, explicit text in Token node contains integer value
             ClusterMarker = (rec,pRec,n) => pRec == null ? true : rec.SourceNo != pRec.SourceNo,  // each file (source) constitutes a cluster
             MarkerStartsCluster = true,  //predicate (marker) matches the first record in cluster
@@ -103,7 +103,7 @@ namespace DataConveyer_AggregateTokens
          //Regular cluster - cumulate data in the global cache
          foreach (var rec in cluster.Records)
          {
-            var color = (string)rec["color"];
+            var color = (string)rec["@color"];  //keys originating from attributes are prepended with @ (by default)
             var value = (int)rec["__explicitText__"];
 
             tokenSummary.AddOrUpdate(color, (1, value), (c, t) => (t.count + 1, t.total + value));
