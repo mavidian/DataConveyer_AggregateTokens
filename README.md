@@ -4,7 +4,7 @@ DataConveyer_AggregateTokens is a console application to demonstrate how Data Co
 used to accumulate data extracted from a sequence of input files.
 
 There are 10 sample XML files located in ...Data folder. Data Conveyer will process all these
-files and identify tokens contained in them (in this example, tokens are just Token nodes). The
+files and identify tokens contained in them (in this example, tokens are just XML nodes named *Token*). The
  contents of these tokens will be accumulated and saved in a CSV file. 
 
 ## Installation
